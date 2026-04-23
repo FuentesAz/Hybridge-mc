@@ -1,1 +1,15 @@
+# Mundos y datos del servidor
+world/
+world_nether/
+world_the_end/
 data/
+logs/
+cache/
+
+# Archivos ejecutables (se descargan en el deploy)
+*.jar
+libraries/
+
+.env
+
+.DS_Store
