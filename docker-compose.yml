@@ -22,4 +22,5 @@ services:
       PAUSE_WHEN_EMPTY_SECONDS: "-1"
     volumes:
       - "./data:/data"
+      - "./plugins:/data/plugins"
     restart: unless-stopped
