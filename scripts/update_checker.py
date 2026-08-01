@@ -41,12 +41,7 @@ def check_spigot():
     url = "https://launchermeta.mojang.com/mc/game/version_manifest_v2.json"
     data = fetch_json(url)
     
-    # Filter for standard Minecraft 1.x release versions
-    releases = [
-        v["id"] for v in data.get("versions", [])
-        if v.get("type") == "release" and re.match(r"^1\.\d+(\.\d+)?$", v.get("id", ""))
-    ]
-    latest_version = releases[0] if releases else "1.21.4"
+    latest_version = data.get("latest", {}).get("release", "latest")
     
     current_version = None
     if os.path.exists(DOCKERFILE_PATH):

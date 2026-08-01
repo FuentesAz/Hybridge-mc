@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get clean
 
 # Version de Spigot
-ARG SPIGOT_VERSION=1.21.11
+ARG SPIGOT_VERSION=26.2
 
 # Descargar BuildTools y compilar Spigot
 RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar && \
