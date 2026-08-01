@@ -1,0 +1,35 @@
+name: Check and Update Minecraft Dependencies
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Ejecución diaria a la medianoche UTC
+  workflow_dispatch: # Permite disparar la ejecución manualmente desde GitHub
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Requerido para hacer git push de los cambios
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run update checker
+        id: updater
+        run: python scripts/update_checker.py
+
+      - name: Commit and push changes
+        if: steps.updater.outputs.has_updates == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Dockerfile plugins/.versions.json
+          git add -f plugins/Geyser-Spigot.jar plugins/floodgate.jar
+          git commit -m "${{ steps.updater.outputs.commit_message }}"
+          git push
