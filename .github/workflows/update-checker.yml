@@ -9,7 +9,7 @@ jobs:
   check-and-update:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Requerido para hacer git push de los cambios
+      contents: write
 
     steps:
       - name: Checkout repository
