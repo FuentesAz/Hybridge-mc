@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get install -y git wget && \
     apt-get clean
 
-ARG SPIGOT_VERSION=26.2
+ARG SPIGOT_VERSION=26.3
 
 RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar && \
     git config --global --unset core.autocrlf || true && \
