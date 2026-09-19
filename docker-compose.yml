@@ -14,7 +14,7 @@ services:
       SERVER_NAME: "Hybridge Bedrock Server"
       MAX_PLAYERS: "40"
       ALLOW_CHEATS: "false"
-      ONLINE_MODE: "false"
+      ONLINE_MODE: "true"
       WHITE_LIST: "false"
       TRANSPORT: "nethernet"
       TZ: "America/Mexico_City"
