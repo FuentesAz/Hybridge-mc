@@ -1,5 +1,7 @@
 {
   "spigot_version": "26.3",
   "geyser_build": 1245,
-  "floodgate_build": 141
+  "floodgate_build": 141,
+  "viaversion_version": "5.12.0",
+  "viabackwards_version": "5.12.0"
 }

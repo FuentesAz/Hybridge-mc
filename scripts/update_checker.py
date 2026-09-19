@@ -104,6 +104,33 @@ def check_floodgate(stored_build):
         print(f"  -> Floodgate is up to date (build #{stored_build}).")
         return False, stored_build, version_str
 
+def check_github_plugin(repo, jar_name, stored_version):
+    print(f"Checking for {jar_name} updates ({repo})...")
+    try:
+        url = f"https://api.github.com/repos/{repo}/releases/latest"
+        data = fetch_json(url)
+        tag_name = data.get("tag_name", "").lstrip("v")
+        jar_path = os.path.join(PLUGINS_DIR, jar_name)
+
+        needs_update = (tag_name != stored_version) or (not os.path.exists(jar_path))
+
+        if needs_update:
+            download_url = None
+            for asset in data.get("assets", []):
+                if asset.get("name", "").endswith(".jar"):
+                    download_url = asset.get("browser_download_url")
+                    break
+            if download_url:
+                print(f"  -> {jar_name} update found: {stored_version} => {tag_name}")
+                print(f"  -> Downloading {jar_name} to {jar_path}...")
+                download_file(download_url, jar_path)
+                return True, tag_name
+    except Exception as e:
+        print(f"  -> Failed to check {repo}: {e}")
+
+    print(f"  -> {jar_name} is up to date ({stored_version}).")
+    return False, stored_version
+
 def main():
     versions = load_versions()
     changes = []
@@ -125,6 +152,16 @@ def main():
         changes.append(f"Floodgate v{floodgate_ver} build #{new_floodgate_build}")
         versions["floodgate_build"] = new_floodgate_build
 
+    viaver_updated, new_viaver_ver = check_github_plugin("ViaVersion/ViaVersion", "ViaVersion.jar", versions.get("viaversion_version"))
+    if viaver_updated:
+        changes.append(f"ViaVersion v{new_viaver_ver}")
+        versions["viaversion_version"] = new_viaver_ver
+
+    viaback_updated, new_viaback_ver = check_github_plugin("ViaVersion/ViaBackwards", "ViaBackwards.jar", versions.get("viabackwards_version"))
+    if viaback_updated:
+        changes.append(f"ViaBackwards v{new_viaback_ver}")
+        versions["viabackwards_version"] = new_viaback_ver
+
     if changes:
         save_versions(versions)
         commit_msg = "auto: update " + ", ".join(changes)
@@ -144,3 +181,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
