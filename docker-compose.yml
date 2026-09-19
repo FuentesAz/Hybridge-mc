@@ -3,7 +3,10 @@ services:
     image: itzg/minecraft-bedrock-server:latest
     container_name: servidormc
     ports:
+      - "19132:19132/tcp"
       - "19132:19132/udp"
+      - "19133:19133/tcp"
+      - "19133:19133/udp"
     environment:
       EULA: "TRUE"
       GAMEMODE: "survival"
@@ -13,6 +16,7 @@ services:
       ALLOW_CHEATS: "false"
       ONLINE_MODE: "false"
       WHITE_LIST: "false"
+      TRANSPORT: "nethernet"
       TZ: "America/Mexico_City"
     volumes:
       - "./data:/data"
