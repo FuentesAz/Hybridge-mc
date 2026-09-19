@@ -4,9 +4,7 @@ services:
     container_name: servidormc
     ports:
       - "19132:19132/tcp"
-      - "19132:19132/udp"
-      - "19133:19133/tcp"
-      - "19133:19133/udp"
+      - "19132-19140:19132-19140/udp"
     environment:
       EULA: "TRUE"
       GAMEMODE: "survival"
@@ -17,6 +15,7 @@ services:
       ONLINE_MODE: "true"
       WHITE_LIST: "false"
       TRANSPORT: "nethernet"
+      SERVER_UDP_PORTS: "19132-19140"
       TZ: "America/Mexico_City"
     volumes:
       - "./data:/data"
